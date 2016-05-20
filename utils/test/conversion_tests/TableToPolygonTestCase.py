@@ -39,12 +39,18 @@ class TableToPolygonTestCase(unittest.TestCase):
     ''' Test all tools and methods related to the Table To Polygon tool
     in the Military Tools toolbox'''
     
+    inputTable = None
+    outputPolygons = None
+    
     def setUp(self):
         if Configuration.DEBUG == True: print("     TableToPolygonTestCase.setUp")    
         
         UnitTestUtilities.checkArcPy()
         if(Configuration.militaryScratchGDB == None) or (not arcpy.Exists(Configuration.militaryScratchGDB)):
             Configuration.militaryScratchGDB = UnitTestUtilities.createScratch(Configuration.militaryDataPath)
+            
+        self.inputTable = os.path.join(Configuration.militaryInputDataGDB, "SigActs")
+        self.outputPolygons = os.path.join(Configuration.militaryScratchGDB, "outputPolygons")
         
     def tearDown(self):
         if Configuration.DEBUG == True: print("     TableToPolygonTestCase.tearDown")
@@ -62,15 +68,14 @@ class TableToPolygonTestCase(unittest.TestCase):
         try:
             if Configuration.DEBUG == True: print("     TableToPolygonTestCase.test_table_to_polygon") 
             
-            # arcpy.ImportToolbox(toolboxPath, "mdat")
-            # runToolMessage = "Running tool (Farthest On Circle)"
-            # arcpy.AddMessage(runToolMessage)
-            # Configuration.Logger.info(runToolMessage)
+            arcpy.ImportToolbox(toolboxPath, "mt")
+            runToolMessage = "Running tool (Table To Polygon)"
+            arcpy.AddMessage(runToolMessage)
+            Configuration.Logger.info(runToolMessage)
             
-            # arcpy.CheckOutExtension("Spatial")
-            # arcpy.FarthestOnCircle_mdat(self.position, "#", "#", self.hoursOfTransit)
+            arcpy.TableToPolygon_mt(self.inputTable, "#", "Location_X", "Location_Y", self.outputPolygons)
             
-            # self.assertTrue(arcpy.Exists(self.hoursOfTransit))
+            self.assertTrue(arcpy.Exists(self.outputPolygons))
        
             
         except arcpy.ExecuteError:
