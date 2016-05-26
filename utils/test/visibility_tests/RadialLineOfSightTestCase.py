@@ -43,7 +43,7 @@ class RadialLineOfSightTestCase(unittest.TestCase):
     outputPoints = None
 
     def setUp(self):
-        if Configuration.DEBUG == True: print("     RadialLineOfSightTestCase.setUp")
+        if Configuration.DEBUG == True: print(".....RadialLineOfSightTestCase.setUp")
 
         UnitTestUtilities.checkArcPy()
         if(Configuration.militaryScratchGDB == None) or (not arcpy.Exists(Configuration.militaryScratchGDB)):
@@ -59,46 +59,36 @@ class RadialLineOfSightTestCase(unittest.TestCase):
             arcpy.AddMessage("Spatial checked out")
 
     def tearDown(self):
-        if Configuration.DEBUG == True: print("     RadialLineOfSightTestCase.tearDown")
+        if Configuration.DEBUG == True: print(".....RadialLineOfSightTestCase.tearDown")
         arcpy.CheckInExtension("Spatial");
         UnitTestUtilities.deleteScratch(Configuration.militaryScratchGDB)
 
     def test_radial_line_of_sight_desktop(self):
-        arcpy.AddMessage("Testing Radial Line Of Sight (Desktop).")
+        arcpy.AddMessage(".....Testing Radial Line Of Sight (Desktop).")
         self.test_radial_line_of_sight(Configuration.military_DesktopToolboxPath)
 
     def test_radial_line_of_sight_pro(self):
-        arcpy.AddMessage("Testing Radial Line Of Sight (Pro).")
+        arcpy.AddMessage(".....Testing Radial Line Of Sight (Pro).")
         self.test_radial_line_of_sight(Configuration.military_ProToolboxPath)
 
     def test_radial_line_of_sight(self, toolboxPath):
         try:
-            if Configuration.DEBUG == True: print("     RadialLineOfSightTestCase.test_Radial_line_of_sight")
-
             arcpy.ImportToolbox(toolboxPath, "mt")
-            runToolMessage = "Running tool (Radial Line Of Sight)"
-            arcpy.AddMessage(runToolMessage)
+            runToolMessage = ".....RadialLineOfSightTestCase.test_Radial_line_of_sight"
+            print(runToolMessage)
             Configuration.Logger.info(runToolMessage)
 
             arcpy.RadialLineOfSight_mt(self.observers, self.inputSurface, self.outputRLOS)
-            self.assertTrue(arcpy.Exists(self.outputRLOS))
-
             featureCount = int(arcpy.GetCount_management(self.outputRLOS).getOutput(0))
-#            self.assertEqual(featureCount, int(3584))
+        
+            self.assertTrue(arcpy.Exists(self.outputRLOS))
             self.assertEqual(featureCount, int(3501))
-
-            '''rows = arcpy.SearchCursor(self.outputPoints)
-            row = rows.next()
-            while row:
-                elevation = row.Elevation
-                self.assertEqual(elevation, int(1123))
-                row = rows.next()'''
-
-
+    
         except arcpy.ExecuteError:
+            # these guys crash the except:
+            #self.fail()
+            #self.fail("test_radial_line_of_sight failed")
             UnitTestUtilities.handleArcPyError()
 
         except:
             UnitTestUtilities.handleGeneralError()
-
-
