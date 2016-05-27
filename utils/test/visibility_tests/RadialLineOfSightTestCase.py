@@ -60,7 +60,7 @@ class RadialLineOfSightTestCase(unittest.TestCase):
 
         if arcpy.CheckExtension("Spatial") == "Available":
             arcpy.CheckOutExtension("Spatial")
-            arcpy.AddMessage("Spatial checked out")
+            if Configuration.DEBUG == True: print("Spatial checked out")
 
     def tearDown(self):
         ''' RadialLineOfSightTestCase.tearDown '''
@@ -109,37 +109,3 @@ class RadialLineOfSightTestCase(unittest.TestCase):
         except:
             self.fail("FAIL: " + runToolMessage)
             UnitTestUtilities.handleGeneralError()
-
-    # def test_radial_line_of_sight_desktop(self):
-    #     arcpy.AddMessage(".....Testing Radial Line Of Sight (Desktop).")
-    #     self.test_radial_line_of_sight(Configuration.military_DesktopToolboxPath)
-            
-    # def test_radial_line_of_sight_pro(self):
-    #     arcpy.AddMessage(".....Testing Radial Line Of Sight (Pro).")
-    #     self.test_radial_line_of_sight(Configuration.military_ProToolboxPath)
-
-    # def test_radial_line_of_sight(self, toolboxPath):
-    #     try:
-    #         arcpy.ImportToolbox(toolboxPath, "mt")
-    #         runToolMessage = ".....RadialLineOfSightTestCase.test_Radial_line_of_sight"
-    #         print(runToolMessage)
-    #         Configuration.Logger.info(runToolMessage)
-    # 
-    #         arcpy.RadialLineOfSight_mt(self.observers, self.inputSurface, self.outputRLOS)
-    #         featureCount = int(arcpy.GetCount_management(self.outputRLOS).getOutput(0))
-    #     
-    #         self.assertTrue(arcpy.Exists(self.outputRLOS))
-    #         self.assertEqual(featureCount, int(3501))
-    # 
-    #     except arcpy.ExecuteError:
-    #         print(".....test_radial_line_of_sight.arcpy.ExecuteError.....")
-    #         print("self: " + str(self))
-    #         # these guys crash the except:
-    #         #self.fail()
-    #         self.fail("test_radial_line_of_sight failed")
-    #         #self.fail("test_radial_line_of_sight failed".encode(encoding='ascii'))
-    #         #self.fail("test_radial_line_of_sight failed".encode(encoding='utf-8'))
-    #         #self.fail(arcpy.GetMessages())
-    #         #UnitTestUtilities.handleArcPyError()
-    #     except:
-    #         UnitTestUtilities.handleGeneralError()

@@ -46,7 +46,7 @@ class HighestPointsTestCase(unittest.TestCase):
     outputPoints = None
 
     def setUp(self):
-        if Configuration.DEBUG == True: print("     HighestPointsTestCase.setUp")
+        if Configuration.DEBUG == True: print(".....HighestPointsTestCase.setUp")
 
         UnitTestUtilities.checkArcPy()
         if(Configuration.militaryScratchGDB == None) or (not arcpy.Exists(Configuration.militaryScratchGDB)):
@@ -58,10 +58,10 @@ class HighestPointsTestCase(unittest.TestCase):
 
         if arcpy.CheckExtension("Spatial") == "Available":
             arcpy.CheckOutExtension("Spatial")
-            arcpy.AddMessage("Spatial checked out")
+            if Configuration.DEBUG == True: print("Spatial checked out")
 
     def tearDown(self):
-        if Configuration.DEBUG == True: print("     HighestPointsTestCase.tearDown")
+        if Configuration.DEBUG == True: print(".....HighestPointsTestCase.tearDown")
         arcpy.CheckInExtension("Spatial");
         UnitTestUtilities.deleteScratch(Configuration.militaryScratchGDB)
 

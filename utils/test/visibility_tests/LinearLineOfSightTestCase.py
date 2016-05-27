@@ -47,7 +47,7 @@ class LinearLineOfSightTestCase(unittest.TestCase):
     outputPoints = None
 
     def setUp(self):
-        if Configuration.DEBUG == True: print("     LinearLineOfSightTestCase.setUp")
+        if Configuration.DEBUG == True: print(".....LinearLineOfSightTestCase.setUp")
 
         UnitTestUtilities.checkArcPy()
         if(Configuration.militaryScratchGDB == None) or (not arcpy.Exists(Configuration.militaryScratchGDB)):
@@ -61,13 +61,13 @@ class LinearLineOfSightTestCase(unittest.TestCase):
 
         if arcpy.CheckExtension("Spatial") == "Available":
             arcpy.CheckOutExtension("Spatial")
-            arcpy.AddMessage("Spatial checked out")
+            if Configuration.DEBUG == True: print("Spatial checked out")
         if arcpy.CheckExtension("3D") == "Available":
             arcpy.CheckOutExtension("3D")
-            arcpy.AddMessage("3D checked out")
+            if Configuration.DEBUG == True: print("3D checked out")
 
     def tearDown(self):
-        if Configuration.DEBUG == True: print("     LinearLineOfSightTestCase.tearDown")
+        if Configuration.DEBUG == True: print(".....LinearLineOfSightTestCase.tearDown")
         arcpy.CheckInExtension("Spatial");
         UnitTestUtilities.deleteScratch(Configuration.militaryScratchGDB)
 

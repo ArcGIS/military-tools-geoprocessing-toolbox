@@ -55,7 +55,7 @@ def getVisibilityTestSuites():
     radialLineOfSightProTests = ['test_radial_line_of_sight_pro']
 
     if Configuration.DEBUG == True:
-        print("   VisibilityTestSuite.getVisibilityTestSuites")
+        print(".....VisibilityTestSuite.getVisibilityTestSuites")
 
     Configuration.Logger.info("Adding Visibility tests including: ")
 
@@ -78,7 +78,7 @@ def getVisibilityTestSuites():
     return TestSuite
 
 def addFindLocalPeaksTests(inputTestList):
-    if Configuration.DEBUG == True: print("      VisibilityTestSuite.addFindLocalPeaksTests")
+    if Configuration.DEBUG == True: print(".....VisibilityTestSuite.addFindLocalPeaksTests")
     from . import FindLocalPeaksTestCase
     for test in inputTestList:
         print("adding test: " + str(test))
@@ -86,7 +86,7 @@ def addFindLocalPeaksTests(inputTestList):
         TestSuite.addTest(FindLocalPeaksTestCase.FindLocalPeaksTestCase(test))
 
 def addHighestPointsTests(inputTestList):
-    if Configuration.DEBUG == True: print("      VisibilityTestSuite.addHighestPointsTests")
+    if Configuration.DEBUG == True: print(".....VisibilityTestSuite.addHighestPointsTests")
     from . import HighestPointsTestCase
     for test in inputTestList:
         print("adding test: " + str(test))
@@ -94,7 +94,7 @@ def addHighestPointsTests(inputTestList):
         TestSuite.addTest(HighestPointsTestCase.HighestPointsTestCase(test))
         
 def addLowestPointsTests(inputTestList):
-    if Configuration.DEBUG == True: print("      VisibilityTestSuite.addLowestPointsTests")
+    if Configuration.DEBUG == True: print(".....VisibilityTestSuite.addLowestPointsTests")
     from . import LowestPointsTestCase
     for test in inputTestList:
         print("adding test: " + str(test))
@@ -102,7 +102,7 @@ def addLowestPointsTests(inputTestList):
         TestSuite.addTest(LowestPointsTestCase.LowestPointsTestCase(test))
 
 def addLinearLineOfSightTests(inputTestList):
-    if Configuration.DEBUG == True: print("      VisibilityTestSuite.addLinearLineOfSightTests")
+    if Configuration.DEBUG == True: print(".....VisibilityTestSuite.addLinearLineOfSightTests")
     from . import LinearLineOfSightTestCase
     for test in inputTestList:
         print("adding test: " + str(test))
@@ -110,14 +110,9 @@ def addLinearLineOfSightTests(inputTestList):
         TestSuite.addTest(LinearLineOfSightTestCase.LinearLineOfSightTestCase(test))
 
 def addRadialLineOfSightTests(inputTestList):
-    if Configuration.DEBUG == True: print("      VisibilityTestSuite.addRadialLineOfSightTests")
+    if Configuration.DEBUG == True: print(".....VisibilityTestSuite.addRadialLineOfSightTests")
     from . import RadialLineOfSightTestCase
     for test in inputTestList:
         print("adding test: " + str(test))
         Configuration.Logger.info(test)
         TestSuite.addTest(RadialLineOfSightTestCase.RadialLineOfSightTestCase(test))
-
-
-
-
-

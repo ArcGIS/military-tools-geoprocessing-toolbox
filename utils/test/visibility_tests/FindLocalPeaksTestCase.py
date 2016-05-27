@@ -46,7 +46,7 @@ class FindLocalPeaksTestCase(unittest.TestCase):
     outputPoints = None
 
     def setUp(self):
-        if Configuration.DEBUG == True: print("     FindLocalPeaksTestCase.setUp")
+        if Configuration.DEBUG == True: print(".....FindLocalPeaksTestCase.setUp")
 
         UnitTestUtilities.checkArcPy()
         if(Configuration.militaryScratchGDB == None) or (not arcpy.Exists(Configuration.militaryScratchGDB)):
@@ -58,10 +58,10 @@ class FindLocalPeaksTestCase(unittest.TestCase):
 
         if arcpy.CheckExtension("Spatial") == "Available":
             arcpy.CheckOutExtension("Spatial")
-            arcpy.AddMessage("Spatial checked out")
+            if Configuration.DEBUG == True: print("Spatial checked out")
 
     def tearDown(self):
-        if Configuration.DEBUG == True: print("     FindLocalPeaksTestCase.tearDown")
+        if Configuration.DEBUG == True: print(".....FindLocalPeaksTestCase.tearDown")
         arcpy.CheckInExtension("Spatial");
         UnitTestUtilities.deleteScratch(Configuration.militaryScratchGDB)
 

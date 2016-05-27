@@ -59,7 +59,7 @@ def getConversionTestSuites():
     tableToPolylineProTests = ['test_table_to_polyline_pro']
     
     if Configuration.DEBUG == True:
-        print("   ConversionTestSuite.getConversionTestSuites")
+        print(".....ConversionTestSuite.getConversionTestSuites")
         
     Configuration.Logger.info("Adding Conversion tests including: ")
     
@@ -87,7 +87,7 @@ def getConversionTestSuites():
     return TestSuite
     
 def addConvertCoordinatesTests(inputTestList):
-    if Configuration.DEBUG == True: print("      ConversionTestSuite.addConvertCoordinatesTests")
+    if Configuration.DEBUG == True: print(".....ConversionTestSuite.addConvertCoordinatesTests")
     from . import ConvertCoordinatesTestCase
     for test in inputTestList:
         print("adding test: " + str(test))
@@ -95,7 +95,7 @@ def addConvertCoordinatesTests(inputTestList):
         TestSuite.addTest(ConvertCoordinatesTestCase.ConvertCoordinatesTestCase(test))  
 
 def addTableToTwoPointLineTests(inputTestList):
-    if Configuration.DEBUG == True: print("      ConversionTestSuite.addTableToTwoPointLineTests")
+    if Configuration.DEBUG == True: print(".....ConversionTestSuite.addTableToTwoPointLineTests")
     from . import TableToTwoPointLineTestCase
     for test in inputTestList:
         print("adding test: " + str(test))
@@ -103,7 +103,7 @@ def addTableToTwoPointLineTests(inputTestList):
         TestSuite.addTest(TableToTwoPointLineTestCase.TableToTwoPointLineTestCase(test))
 
 def addTableToEllipseTests(inputTestList):
-    if Configuration.DEBUG == True: print("      ConversionTestSuite.addTableToEllipseTests")
+    if Configuration.DEBUG == True: print(".....ConversionTestSuite.addTableToEllipseTests")
     from . import TableToEllipseTestCase
     for test in inputTestList:
         print("adding test: " + str(test))
@@ -111,7 +111,7 @@ def addTableToEllipseTests(inputTestList):
         TestSuite.addTest(TableToEllipseTestCase.TableToEllipseTestCase(test))
 
 def addTableToLineOfBearingTests(inputTestList):
-    if Configuration.DEBUG == True: print("      ConversionTestSuite.addTableToLineOfBearingTests")
+    if Configuration.DEBUG == True: print(".....ConversionTestSuite.addTableToLineOfBearingTests")
     from . import TableToLineOfBearingTestCase
     for test in inputTestList:
         print("adding test: " + str(test))
@@ -119,7 +119,7 @@ def addTableToLineOfBearingTests(inputTestList):
         TestSuite.addTest(TableToLineOfBearingTestCase.TableToLineOfBearingTestCase(test))
 
 def addTableToPointTests(inputTestList):
-    if Configuration.DEBUG == True: print("      ConversionTestSuite.addTableToPointTests")
+    if Configuration.DEBUG == True: print(".....ConversionTestSuite.addTableToPointTests")
     from . import TableToPointTestCase
     for test in inputTestList:
         print("adding test: " + str(test))
@@ -127,7 +127,7 @@ def addTableToPointTests(inputTestList):
         TestSuite.addTest(TableToPointTestCase.TableToPointTestCase(test))
 
 def addTableToPolygonTests(inputTestList):
-    if Configuration.DEBUG == True: print("      ConversionTestSuite.addTableToPolygonTests")
+    if Configuration.DEBUG == True: print(".....ConversionTestSuite.addTableToPolygonTests")
     from . import TableToPolygonTestCase
     for test in inputTestList:
         print("adding test: " + str(test))
@@ -135,12 +135,9 @@ def addTableToPolygonTests(inputTestList):
         TestSuite.addTest(TableToPolygonTestCase.TableToPolygonTestCase(test))
 
 def addTableToPolylineTests(inputTestList):
-    if Configuration.DEBUG == True: print("      ConversionTestSuite.addTableToPolylineTests")
+    if Configuration.DEBUG == True: print(".....ConversionTestSuite.addTableToPolylineTests")
     from . import TableToPolylineTestCase
     for test in inputTestList:
         print("adding test: " + str(test))
         Configuration.Logger.info(test)
         TestSuite.addTest(TableToPolylineTestCase.TableToPolylineTestCase(test))
-        
- 
-        
