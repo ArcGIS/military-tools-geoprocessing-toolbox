@@ -29,6 +29,7 @@ company: Esri
 history:
 5/18/2016 - DJH - initial creation
 5/24/2016 - MF - update for parameter changes in Pro
+5/27/2016 - MF - change unittest fail pattern to catch tool errors
 ==================================================
 '''
 
@@ -71,17 +72,32 @@ class LinearLineOfSightTestCase(unittest.TestCase):
         UnitTestUtilities.deleteScratch(Configuration.militaryScratchGDB)
 
     def test_linear_line_of_sight_desktop(self):
-        arcpy.AddMessage("Testing Linear Line Of Sight (Desktop).")
-        self.test_linear_line_of_sight(Configuration.military_DesktopToolboxPath)
+        ''' Test Linear Line of Sight for ArcGIS Desktop '''
+        try:
+            runToolMessage = ".....LinearLineOfSightTestCase.test_linear_line_of_sight_desktop"
+            arcpy.ImportToolbox(Configuration.military_DesktopToolboxPath, "mt")
+            print(runToolMessage)
+            Configuration.Logger.info(runToolMessage)
+
+            arcpy.LinearLineOfSight_mt(self.observers, self.targets, self.inputSurface, self.outputLOS)
+            self.assertTrue(arcpy.Exists(self.outputLOS))
+
+            featureCount = int(arcpy.GetCount_management(self.outputLOS).getOutput(0))
+            self.assertEqual(featureCount, int(32))
+
+        except arcpy.ExecuteError:
+            self.fail(arcpy.GetMessages())
+            UnitTestUtilities.handleArcPyError()
+        except:
+            self.fail("FAIL: " + runToolMessage)
+            UnitTestUtilities.handleGeneralError()
 
     def test_linear_line_of_sight_pro(self):
-        arcpy.AddMessage("Testing Linear Line Of Sight (Pro).")
+        ''' Test Linear Line of Sight for ArcGIS Pro '''
         try:
-            if Configuration.DEBUG == True: print("     LinearLineOfSightTestCase.test_linear_line_of_sight")
-
+            runToolMessage = ".....LinearLineOfSightTestCase.test_linear_line_of_sight_pro"
             arcpy.ImportToolbox(Configuration.military_ProToolboxPath, "mt")
-            runToolMessage = "Running tool (Linear Line Of Sight)"
-            arcpy.AddMessage(runToolMessage)
+            print(runToolMessage)
             Configuration.Logger.info(runToolMessage)
 
             #
@@ -96,41 +112,8 @@ class LinearLineOfSightTestCase(unittest.TestCase):
             #self.assertEqual(featureCountSightLines, int(1))
 
         except arcpy.ExecuteError:
+            self.fail(arcpy.GetMessages())
             UnitTestUtilities.handleArcPyError()
-
         except:
+            self.fail("FAIL: " + runToolMessage)
             UnitTestUtilities.handleGeneralError()
-
-    def test_linear_line_of_sight(self, toolboxPath):
-        try:
-            if Configuration.DEBUG == True: print("     LinearLineOfSightTestCase.test_linear_line_of_sight")
-
-            arcpy.ImportToolbox(toolboxPath, "mt")
-            runToolMessage = "Running tool (Linear Line Of Sight)"
-            arcpy.AddMessage(runToolMessage)
-            Configuration.Logger.info(runToolMessage)
-
-            arcpy.LinearLineOfSight_mt(self.observers, self.targets, self.inputSurface, self.outputLOS)
-            self.assertTrue(arcpy.Exists(self.outputLOS))
-
-            featureCount = int(arcpy.GetCount_management(self.outputLOS).getOutput(0))
-            self.assertEqual(featureCount, int(32))
-
-            '''pointCount = int(arcpy.GetCount_management(self.outputPoints).getOutput(0))
-            self.assertEqual(pointCount, int(1))
-
-            rows = arcpy.SearchCursor(self.outputPoints)
-            row = rows.next()
-            while row:
-                elevation = row.Elevation
-                self.assertEqual(elevation, int(1123))
-                row = rows.next()'''
-
-
-        except arcpy.ExecuteError:
-            UnitTestUtilities.handleArcPyError()
-
-        except:
-            UnitTestUtilities.handleGeneralError()
-
-

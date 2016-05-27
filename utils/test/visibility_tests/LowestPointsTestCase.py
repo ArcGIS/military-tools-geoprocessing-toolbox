@@ -1,33 +1,36 @@
 # coding: utf-8
-# -----------------------------------------------------------------------------
-# Copyright 2016 Esri
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#   http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-# -----------------------------------------------------------------------------
+'''
+-----------------------------------------------------------------------------
+Copyright 2016 Esri
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-# ==================================================
-# LowestPointsTestCase.py
-# --------------------------------------------------
-# requirements:
-# * ArcGIS Desktop 10.X+ or ArcGIS Pro 1.X+
-# * Python 2.7 or Python 3.4
-#
-# author: ArcGIS Solutions
-# company: Esri
-#
-# ==================================================
-# history:
-# 5/11/2016 - JH - initial creation
-# ==================================================
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-----------------------------------------------------------------------------
+
+==================================================
+LowestPointsTestCase.py
+--------------------------------------------------
+requirements:
+* ArcGIS Desktop 10.X+ or ArcGIS Pro 1.X+
+* Python 2.7 or Python 3.4
+
+author: ArcGIS Solutions
+company: Esri
+
+==================================================
+history:
+5/11/2016 - JH - initial creation
+5/27/2016 - MF - change unittest fail pattern to catch tool errors
+==================================================
+'''
 
 import unittest
 import arcpy
@@ -63,20 +66,11 @@ class LowestPointsTestCase(unittest.TestCase):
         UnitTestUtilities.deleteScratch(Configuration.militaryScratchGDB)
 
     def test_lowest_points_desktop(self):
-        arcpy.AddMessage("Testing Lowest Points (Desktop).")
-        self.test_lowest_points(Configuration.military_DesktopToolboxPath)
-
-    def test_lowest_points_pro(self):
-        arcpy.AddMessage("Testing Lowest Points (Pro).")
-        self.test_lowest_points(Configuration.military_ProToolboxPath)
-
-    def test_lowest_points(self, toolboxPath):
+        ''' Test Lowest Points for ArcGIS Desktop'''
         try:
-            if Configuration.DEBUG == True: print("     LowestPointsTestCase.test_lowest_points")
-
-            arcpy.ImportToolbox(toolboxPath, "mt")
-            runToolMessage = "Running tool (Lowest Points)"
-            arcpy.AddMessage(runToolMessage)
+            runToolMessage = ".....LowestPointsTestCase.test_lowest_points_desktop"
+            arcpy.ImportToolbox(Configuration.military_DesktopToolboxPath, "mt")
+            print(runToolMessage)
             Configuration.Logger.info(runToolMessage)
 
             arcpy.LowestPoints_mt(self.inputArea, self.inputSurface, self.outputPoints)
@@ -87,11 +81,32 @@ class LowestPointsTestCase(unittest.TestCase):
             print(pointCount)
             self.assertEqual(pointCount, int(6))
 
-
         except arcpy.ExecuteError:
+            self.fail(arcpy.GetMessages())
             UnitTestUtilities.handleArcPyError()
-
         except:
+            self.fail("FAIL: " + runToolMessage)
             UnitTestUtilities.handleGeneralError()
 
+    def test_lowest_points_pro(self):
+        ''' Test Lowest Points for ArcGIS Pro'''
+        try:
+            runToolMessage = ".....LowestPointsTestCase.test_lowest_points_pro"
+            arcpy.ImportToolbox(military_ProToolboxPath, "mt")
+            print(runToolMessage)
+            Configuration.Logger.info(runToolMessage)
 
+            arcpy.LowestPoints_mt(self.inputArea, self.inputSurface, self.outputPoints)
+
+            self.assertTrue(arcpy.Exists(self.outputPoints))
+
+            pointCount = int(arcpy.GetCount_management(self.outputPoints).getOutput(0))
+            print(pointCount)
+            self.assertEqual(pointCount, int(6))
+
+        except arcpy.ExecuteError:
+            self.fail(arcpy.GetMessages())
+            UnitTestUtilities.handleArcPyError()
+        except:
+            self.fail("FAIL: " + runToolMessage)
+            UnitTestUtilities.handleGeneralError()
