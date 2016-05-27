@@ -76,9 +76,9 @@ class TableToPointTestCase(unittest.TestCase):
             self.assertEqual(pointCount, expectedNumFeats, "Expected %s points but got %s" % (str(expectedNumFeats), str(pointCount)))
 
         except arcpy.ExecuteError:
-            UnitTestUtilities.handleArcPyError()
-        except:
-            UnitTestUtilities.handleGeneralError()
+            failMsg = runToolMessage + "/n" + str(arcpy.GetMessages())
+            self.fail(failMsg)
+            Configuration.Logger.error(failMsg)
 
     def test_table_to_point_pro(self):
         ''' Test Table To Point for ArcGIS Pro '''
@@ -97,6 +97,6 @@ class TableToPointTestCase(unittest.TestCase):
             self.assertEqual(pointCount, expectedNumFeats, "Expected %s points but got %s" % (str(expectedNumFeats), str(pointCount)))
 
         except arcpy.ExecuteError:
-            UnitTestUtilities.handleArcPyError()
-        except:
-            UnitTestUtilities.handleGeneralError()
+            failMsg = runToolMessage + "/n" + str(arcpy.GetMessages())
+            self.fail(failMsg)
+            Configuration.Logger.error(failMsg)

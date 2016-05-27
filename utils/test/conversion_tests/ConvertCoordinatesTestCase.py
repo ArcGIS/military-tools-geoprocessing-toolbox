@@ -76,7 +76,9 @@ class ConvertCoordinatesTestCase(unittest.TestCase):
             self.assertEqual(featureCount, expectedNumFeats, "Expected %s points but got %s" % (str(expectedNumFeats), str(featureCount)))
 
         except arcpy.ExecuteError:
-            UnitTestUtilities.handleArcPyError()
+            failMsg = runToolMessage + "\n" + str(arcpy.GetMessages())
+            self.fail(failMsg)
+            Configuration.Logger.error(failMsg)
 
     def test_convert_coordinates_pro(self):
         ''' Test Convert Coordinates in ArcGIS Pro '''
@@ -95,5 +97,7 @@ class ConvertCoordinatesTestCase(unittest.TestCase):
             self.assertEqual(featureCount, expectedNumFeats, "Expected %s points but got %s" % (str(expectedNumFeats), str(featureCount)))
 
         except arcpy.ExecuteError:
-            UnitTestUtilities.handleArcPyError()
+            failMsg = runToolMessage + "\n" + str(arcpy.GetMessages())
+            self.fail(failMsg)
+            Configuration.Logger.error(failMsg)
         

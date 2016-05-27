@@ -82,9 +82,9 @@ class LowestPointsTestCase(unittest.TestCase):
             self.assertEqual(pointCount, expectedNumFeats, "Expected %s points but got %s" % (str(expectedNumFeats), str(pointCount)))
 
         except arcpy.ExecuteError:
-            UnitTestUtilities.handleArcPyError()
-        except:
-            UnitTestUtilities.handleGeneralError()
+            failMsg = runToolMessage + "/n" + str(arcpy.GetMessages())
+            self.fail(failMsg)
+            Configuration.Logger.error(failMsg)
 
     def test_lowest_points_pro(self):
         ''' Test Lowest Points for ArcGIS Pro'''
@@ -103,6 +103,6 @@ class LowestPointsTestCase(unittest.TestCase):
             self.assertEqual(pointCount, expectedNumFeats, "Expected %s points but got %s" % (str(expectedNumFeats), str(pointCount)))
 
         except arcpy.ExecuteError:
-            UnitTestUtilities.handleArcPyError()
-        except:
-            UnitTestUtilities.handleGeneralError()
+            failMsg = runToolMessage + "/n" + str(arcpy.GetMessages())
+            self.fail(failMsg)
+            Configuration.Logger.error(failMsg)

@@ -88,9 +88,9 @@ class HighestPointsTestCase(unittest.TestCase):
                 row = rows.next()
 
         except arcpy.ExecuteError:
-            UnitTestUtilities.handleArcPyError()
-        except:
-            UnitTestUtilities.handleGeneralError()
+            failMsg = runToolMessage + "/n" + str(arcpy.GetMessages())
+            self.fail(failMsg)
+            Configuration.Logger.error(failMsg)
 
     def test_highest_points_pro(self):
         ''' Test Highest Point for ArcGIS Pro '''
@@ -115,6 +115,6 @@ class HighestPointsTestCase(unittest.TestCase):
                 row = rows.next()
 
         except arcpy.ExecuteError:
-            UnitTestUtilities.handleArcPyError()
-        except:
-            UnitTestUtilities.handleGeneralError()
+            failMsg = runToolMessage + "/n" + str(arcpy.GetMessages())
+            self.fail(failMsg)
+            Configuration.Logger.error(failMsg)

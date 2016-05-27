@@ -82,9 +82,9 @@ class FindLocalPeaksTestCase(unittest.TestCase):
             self.assertEqual(pointCount, expectedNumFeats, "Expected %s pointss but got %s" % (str(expectedNumFeats), str(pointCount)))
 
         except arcpy.ExecuteError:
-            UnitTestUtilities.handleArcPyError()
-        except:
-            UnitTestUtilities.handleGeneralError()
+            failMsg = runToolMessage + "/n" + str(arcpy.GetMessages())
+            self.fail(failMsg)
+            Configuration.Logger.error(failMsg)
 
     def test_find_local_peaks_pro(self):
         ''' Testing Find Local Peaks for ArcGIS Pro '''
@@ -103,6 +103,6 @@ class FindLocalPeaksTestCase(unittest.TestCase):
             self.assertEqual(pointCount, expectedNumFeats, "Expected %s pointss but got %s" % (str(expectedNumFeats), str(pointCount)))
 
         except arcpy.ExecuteError:
-            UnitTestUtilities.handleArcPyError()
-        except:
-            UnitTestUtilities.handleGeneralError()
+            failMsg = runToolMessage + "/n" + str(arcpy.GetMessages())
+            self.fail(failMsg)
+            Configuration.Logger.error(failMsg)

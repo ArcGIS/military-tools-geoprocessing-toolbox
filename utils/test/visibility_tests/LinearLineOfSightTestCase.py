@@ -87,9 +87,9 @@ class LinearLineOfSightTestCase(unittest.TestCase):
             self.assertEqual(featureCount, expectedNumFeats, "Expected %s lines but got %s" % (str(expectedNumFeats), str(featureCount)))
 
         except arcpy.ExecuteError:
-            UnitTestUtilities.handleArcPyError()
-        except:
-            UnitTestUtilities.handleGeneralError()
+            failMsg = runToolMessage + "/n" + str(arcpy.GetMessages())
+            self.fail(failMsg)
+            Configuration.Logger.error(failMsg)
 
     def test_linear_line_of_sight_pro(self):
         ''' Test Linear Line of Sight for ArcGIS Pro '''
@@ -113,6 +113,6 @@ class LinearLineOfSightTestCase(unittest.TestCase):
             self.assertEqual(featureCountSightLines, expectedSightLines, "Expected %s point but got %s" % (str(expectedSightLines), str(featureCountSightLines)))
 
         except arcpy.ExecuteError:
-            UnitTestUtilities.handleArcPyError()
-        except:
-            UnitTestUtilities.handleGeneralError()
+            failMsg = runToolMessage + "/n" + str(arcpy.GetMessages())
+            self.fail(failMsg)
+            Configuration.Logger.error(failMsg)

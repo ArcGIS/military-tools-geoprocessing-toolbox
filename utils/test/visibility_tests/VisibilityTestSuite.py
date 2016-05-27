@@ -45,12 +45,16 @@ def getVisibilityTestSuites():
 
     findLocalPeaksDesktopTests = ['test_find_local_peaks_desktop']
     findLocalPeaksProTests = ['test_find_local_peaks_pro']
+    
     lowestPointsDesktopTests = ['test_lowest_points_desktop']
     lowestPointsProTests = ['test_lowest_points_pro']
+    
     highestPointsDesktopTests = ['test_highest_points_desktop']
     highestPointsProTests = ['test_highest_points_pro']
+    
     linearLineOfSightDesktopTests = ['test_linear_line_of_sight_desktop']
     linearLineOfSightProTests = ['test_linear_line_of_sight_pro']
+    
     radialLineOfSightDesktopTests = ['test_radial_line_of_sight_desktop']
     radialLineOfSightProTests = ['test_radial_line_of_sight_pro']
 
