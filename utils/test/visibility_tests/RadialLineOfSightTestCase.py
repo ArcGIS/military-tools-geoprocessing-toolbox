@@ -70,22 +70,22 @@ class RadialLineOfSightTestCase(unittest.TestCase):
 
     def test_radial_line_of_sight_desktop(self):
         ''' Testing the Radial Line Of Sight tool for ArcGIS for Desktop '''
-        try:
-            runToolMessage = ".....RadialLineOfSightTestCase.test_radial_line_of_sight_desktop"
-            arcpy.ImportToolbox(Configuration.military_DesktopToolboxPath, "mt")
-            print(runToolMessage)
-            Configuration.Logger.info(runToolMessage)
-
-            arcpy.RadialLineOfSight_mt(self.observers, self.inputSurface, self.outputRLOS)
-        
-            self.assertTrue(arcpy.Exists(self.outputRLOS), "Output visible areas do not exist")
-            
-            featureCount = int(arcpy.GetCount_management(self.outputRLOS).getOutput(0))
-            expectedNumFeats = int(3501)
-            self.assertEqual(featureCount, expectedNumFeats, "Expected %s areas but got %s" % (str(expectedNumFeats), str(featureCount)))
+        runToolMessage = ".....RadialLineOfSightTestCase.test_radial_line_of_sight_desktop"
+        arcpy.ImportToolbox(Configuration.military_DesktopToolboxPath, "mt")
+        print(runToolMessage)
+        Configuration.Logger.info(runToolMessage)
     
+        try:
+            arcpy.RadialLineOfSight_mt(self.observers, self.inputSurface, self.outputRLOS)
         except arcpy.ExecuteError:
-            UnitTestUtilities.handleArcPyError()
+           UnitTestUtilities.handleArcPyError()
+        
+        self.assertTrue(arcpy.Exists(self.outputRLOS), "Output visible areas do not exist")
+        
+        featureCount = int(arcpy.GetCount_management(self.outputRLOS).getOutput(0))
+        expectedNumFeats = int(3501)
+        self.assertEqual(featureCount, expectedNumFeats, "Expected %s areas but got %s" % (str(expectedNumFeats), str(featureCount)))
+        return
         
     def test_radial_line_of_sight_pro(self):
         ''' Testing the Radial Line Of Sight tool for ArcGIS Pro '''
@@ -94,14 +94,15 @@ class RadialLineOfSightTestCase(unittest.TestCase):
             arcpy.ImportToolbox(Configuration.military_ProToolboxPath, "mt")
             print(runToolMessage)
             Configuration.Logger.info(runToolMessage)
-
+    
             arcpy.RadialLineOfSight_mt(self.observers, self.inputSurface, self.outputRLOS)
         
-            self.assertTrue(arcpy.Exists(self.outputRLOS), "Output visible areas do not exist")
-            
             featureCount = int(arcpy.GetCount_management(self.outputRLOS).getOutput(0))
             expectedNumFeats = int(3501)
+        
+            self.assertTrue(arcpy.Exists(self.outputRLOS), "Output visible areas do not exist")
             self.assertEqual(featureCount, expectedNumFeats, "Expected %s areas but got %s" % (str(expectedNumFeats), str(featureCount)))
-    
+            
         except arcpy.ExecuteError:
-            UnitTestUtilities.handleArcPyError()
+            self.fail(arcpy.GetMessages())
+            #UnitTestUtilities.handleArcPyError()

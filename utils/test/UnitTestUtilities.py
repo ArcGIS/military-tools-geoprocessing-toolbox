@@ -183,16 +183,19 @@ def checkGeoObjects(objects):
 
 def handleArcPyError():
     ''' Basic GP error handling, errors printed to console and logger '''
-    if Configuration.DEBUG == True: print(".....UnitTestUtilities.handleArcPyError")
+    print("===============================================================")
+    print(".....UnitTestUtilities.handleArcPyError")
     # Get the arcpy error messages
     msgs = arcpy.GetMessages()
     arcpy.AddError(msgs)
     print(msgs)
     Configuration.Logger.error(msgs)
+    print("===============================================================")
 
 def handleGeneralError():
     ''' Basic error handler, errors printed to console and logger '''
-    if Configuration.DEBUG == True: print(".....UnitTestUtilities.handleGeneralError")
+    print("===============================================================")
+    print(".....UnitTestUtilities.handleGeneralError")
     # Get the traceback object
     tb = sys.exc_info()[2]
     tbinfo = traceback.format_tb(tb)[0]
@@ -206,6 +209,7 @@ def handleGeneralError():
     Configuration.Logger.error(pymsg)
     print(msgs)
     Configuration.Logger.error(msgs)
+    print("===============================================================")
     
 def geoObjectsExist(objects):
     ''' Return true if all of the input list of geo-objects exist, false otherwise '''

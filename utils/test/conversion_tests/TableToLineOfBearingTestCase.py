@@ -62,36 +62,39 @@ class TableToLineOfBearingTestCase(unittest.TestCase):
     
     def test_table_to_lineofbearing_desktop(self):
         ''' Test Table To Line Of Bearing for ArcGIS Desktop '''
+        runToolMessage = ".....TableToLineOfBearingTestCase.test_table_to_lineofbearing_desktop"
+        arcpy.ImportToolbox(Configuration.military_DesktopToolboxPath, "mt")
+        print(runToolMessage)
+        Configuration.Logger.info(runToolMessage)
+        
         try:
-            runToolMessage = ".....TableToLineOfBearingTestCase.test_table_to_lineofbearing_desktop"
-            arcpy.ImportToolbox(Configuration.military_DesktopToolboxPath, "mt")
-            print(runToolMessage)
-            Configuration.Logger.info(runToolMessage)
-            
             arcpy.TableToLOB_mt(self.inputTable, "DD_2", "x", "y", "DEGREES", "Orientation", "METERS", "Distance", self.outputLineOfBearing, "GEODESIC")
-            self.assertTrue(arcpy.Exists(self.outputLineOfBearing), "Output lines do not exist")
-            
-            featureCount = int(arcpy.GetCount_management(self.outputLineOfBearing).getOutput(0))
-            expectedNumFeats = int(23)
-            self.assertEqual(featureCount, expectedNumFeats, "Expected %s lines but got %s" % (str(expectedNumFeats), str(featureCount)))
-
         except arcpy.ExecuteError:
             UnitTestUtilities.handleArcPyError()
         
+        self.assertTrue(arcpy.Exists(self.outputLineOfBearing), "Output lines do not exist")
+        
+        featureCount = int(arcpy.GetCount_management(self.outputLineOfBearing).getOutput(0))
+        expectedNumFeats = int(23)
+        self.assertEqual(featureCount, expectedNumFeats, "Expected %s lines but got %s" % (str(expectedNumFeats), str(featureCount)))
+        return
+        
     def test_table_to_lineofbearing_pro(self):
         ''' Test Table To Line Of Bearing for ArcGIS Pro '''
+        runToolMessage = ".....TableToLineOfBearingTestCase.test_table_to_lineofbearing_pro"
+        arcpy.ImportToolbox(Configuration.military_ProToolboxPath, "mt")
+        print(runToolMessage)
+        Configuration.Logger.info(runToolMessage)
+        
         try:
-            runToolMessage = ".....TableToLineOfBearingTestCase.test_table_to_lineofbearing_pro"
-            arcpy.ImportToolbox(Configuration.military_ProToolboxPath, "mt")
-            print(runToolMessage)
-            Configuration.Logger.info(runToolMessage)
-            
             arcpy.TableToLOB_mt(self.inputTable, "DD_2", "x", "y", "DEGREES", "Orientation", "METERS", "Distance", self.outputLineOfBearing, "GEODESIC")
-            self.assertTrue(arcpy.Exists(self.outputLineOfBearing), "Output lines do not exist")
-            
-            featureCount = int(arcpy.GetCount_management(self.outputLineOfBearing).getOutput(0))
-            expectedNumFeats = int(23)
-            self.assertEqual(featureCount, expectedNumFeats, "Expected %s lines but got %s" % (str(expectedNumFeats), str(featureCount)))
-
         except arcpy.ExecuteError:
             UnitTestUtilities.handleArcPyError()
+            return
+        
+        self.assertTrue(arcpy.Exists(self.outputLineOfBearing), "Output lines do not exist")
+        
+        featureCount = int(arcpy.GetCount_management(self.outputLineOfBearing).getOutput(0))
+        expectedNumFeats = int(23)
+        self.assertEqual(featureCount, expectedNumFeats, "Expected %s lines but got %s" % (str(expectedNumFeats), str(featureCount)))
+        return
