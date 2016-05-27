@@ -58,7 +58,7 @@ class HighestPointsTestCase(unittest.TestCase):
 
         if arcpy.CheckExtension("Spatial") == "Available":
             arcpy.CheckOutExtension("Spatial")
-            if Configuration.DEBUG == True: print("Spatial checked out")
+            if Configuration.DEBUG == True: print(".....Spatial checked out")
 
     def tearDown(self):
         if Configuration.DEBUG == True: print(".....HighestPointsTestCase.tearDown")
@@ -74,10 +74,11 @@ class HighestPointsTestCase(unittest.TestCase):
             Configuration.Logger.info(runToolMessage)
 
             arcpy.HighestPoints_mt(self.inputArea, self.inputSurface, self.outputPoints)
-            self.assertTrue(arcpy.Exists(self.outputPoints))
+            self.assertTrue(arcpy.Exists(self.outputPoints), "Output points do not exist")
 
             pointCount = int(arcpy.GetCount_management(self.outputPoints).getOutput(0))
-            self.assertEqual(pointCount, int(1))
+            expectedNumFeats = int(1)
+            self.assertEqual(pointCount, expectedNumFeats, "Expected %s point but got %s" % (str(expectedNumFeats), str(pointCount)))
 
             rows = arcpy.SearchCursor(self.outputPoints)
             row = rows.next()
@@ -87,10 +88,8 @@ class HighestPointsTestCase(unittest.TestCase):
                 row = rows.next()
 
         except arcpy.ExecuteError:
-            self.fail(arcpy.GetMessages())
             UnitTestUtilities.handleArcPyError()
         except:
-            self.fail("FAIL: " + runToolMessage)
             UnitTestUtilities.handleGeneralError()
 
     def test_highest_points_pro(self):
@@ -102,10 +101,11 @@ class HighestPointsTestCase(unittest.TestCase):
             Configuration.Logger.info(runToolMessage)
 
             arcpy.HighestPoints_mt(self.inputArea, self.inputSurface, self.outputPoints)
-            self.assertTrue(arcpy.Exists(self.outputPoints))
+            self.assertTrue(arcpy.Exists(self.outputPoints), "Output points do not exist")
 
             pointCount = int(arcpy.GetCount_management(self.outputPoints).getOutput(0))
-            self.assertEqual(pointCount, int(1))
+            expectedNumFeats = int(1)
+            self.assertEqual(pointCount, expectedNumFeats, "Expected %s point but got %s" % (str(expectedNumFeats), str(pointCount)))
 
             rows = arcpy.SearchCursor(self.outputPoints)
             row = rows.next()
@@ -115,8 +115,6 @@ class HighestPointsTestCase(unittest.TestCase):
                 row = rows.next()
 
         except arcpy.ExecuteError:
-            self.fail(arcpy.GetMessages())
             UnitTestUtilities.handleArcPyError()
         except:
-            self.fail("FAIL: " + runToolMessage)
             UnitTestUtilities.handleGeneralError()

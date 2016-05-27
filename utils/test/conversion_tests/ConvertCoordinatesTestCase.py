@@ -69,17 +69,14 @@ class ConvertCoordinatesTestCase(unittest.TestCase):
             
             arcpy.ConvertCoordinates_mt(self.inputTable, "DD_2", "Location_X", "Location_Y", self.outputConvert)
             
-            self.assertTrue(arcpy.Exists(self.outputConvert))
+            self.assertTrue(arcpy.Exists(self.outputConvert), "Output points do not exist")
             
             featureCount = int(arcpy.GetCount_management(self.outputConvert).getOutput(0))
-            self.assertEqual(featureCount, int(288))
+            expectedNumFeats = int(288)
+            self.assertEqual(featureCount, expectedNumFeats, "Expected %s points but got %s" % (str(expectedNumFeats), str(featureCount)))
 
         except arcpy.ExecuteError:
-            self.fail(arcpy.GetMessages())
             UnitTestUtilities.handleArcPyError()
-        except:
-            self.fail("FAIL: " + runToolMessage)
-            UnitTestUtilities.handleGeneralError()
 
     def test_convert_coordinates_pro(self):
         ''' Test Convert Coordinates in ArcGIS Pro '''
@@ -91,15 +88,12 @@ class ConvertCoordinatesTestCase(unittest.TestCase):
             
             arcpy.ConvertCoordinates_mt(self.inputTable, "DD_2", "Location_X", "Location_Y", self.outputConvert)
             
-            self.assertTrue(arcpy.Exists(self.outputConvert))
+            self.assertTrue(arcpy.Exists(self.outputConvert), "Output points do not exist")
             
             featureCount = int(arcpy.GetCount_management(self.outputConvert).getOutput(0))
-            self.assertEqual(featureCount, int(288))
+            expectedNumFeats = int(288)
+            self.assertEqual(featureCount, expectedNumFeats, "Expected %s points but got %s" % (str(expectedNumFeats), str(featureCount)))
 
         except arcpy.ExecuteError:
-            self.fail(arcpy.GetMessages())
             UnitTestUtilities.handleArcPyError()
-        except:
-            self.fail("FAIL: " + runToolMessage)
-            UnitTestUtilities.handleGeneralError()
         

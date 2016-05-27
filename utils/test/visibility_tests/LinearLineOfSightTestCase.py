@@ -61,10 +61,10 @@ class LinearLineOfSightTestCase(unittest.TestCase):
 
         if arcpy.CheckExtension("Spatial") == "Available":
             arcpy.CheckOutExtension("Spatial")
-            if Configuration.DEBUG == True: print("Spatial checked out")
+            if Configuration.DEBUG == True: print(".....Spatial checked out")
         if arcpy.CheckExtension("3D") == "Available":
             arcpy.CheckOutExtension("3D")
-            if Configuration.DEBUG == True: print("3D checked out")
+            if Configuration.DEBUG == True: print(".....3D checked out")
 
     def tearDown(self):
         if Configuration.DEBUG == True: print(".....LinearLineOfSightTestCase.tearDown")
@@ -80,16 +80,15 @@ class LinearLineOfSightTestCase(unittest.TestCase):
             Configuration.Logger.info(runToolMessage)
 
             arcpy.LinearLineOfSight_mt(self.observers, self.targets, self.inputSurface, self.outputLOS)
-            self.assertTrue(arcpy.Exists(self.outputLOS))
+            self.assertTrue(arcpy.Exists(self.outputLOS), "Output lines do not exist")
 
             featureCount = int(arcpy.GetCount_management(self.outputLOS).getOutput(0))
-            self.assertEqual(featureCount, int(32))
+            expectedNumFeats = int(32)
+            self.assertEqual(featureCount, expectedNumFeats, "Expected %s lines but got %s" % (str(expectedNumFeats), str(featureCount)))
 
         except arcpy.ExecuteError:
-            self.fail(arcpy.GetMessages())
             UnitTestUtilities.handleArcPyError()
         except:
-            self.fail("FAIL: " + runToolMessage)
             UnitTestUtilities.handleGeneralError()
 
     def test_linear_line_of_sight_pro(self):
@@ -102,18 +101,18 @@ class LinearLineOfSightTestCase(unittest.TestCase):
 
             #
             arcpy.LinearLineOfSight_mt(self.observers, self.targets, self.inputSurface, self.outputLOS, self.outputSightLines)
-            self.assertTrue(arcpy.Exists(self.outputLOS))
-            self.assertTrue(arcpy.Exists(self.outputSightLines))
+            self.assertTrue(arcpy.Exists(self.outputLOS), "Output LOS lines do not exist")
+            self.assertTrue(arcpy.Exists(self.outputSightLines), "Output sight lines do not exist")
 
             featureCount = int(arcpy.GetCount_management(self.outputLOS).getOutput(0))
-            self.assertEqual(featureCount, int(32))
+            expectedLOS = int(32)
+            self.assertEqual(featureCount, expectedLOS, "Expected %s point but got %s" % (str(expectedLOS), str(featureCount)))
             
             featureCountSightLines = int(arcpy.GetCount_management(self.outputSightLines).getOutput(0))
-            #self.assertEqual(featureCountSightLines, int(1))
+            expectedSightLines = int(16)
+            self.assertEqual(featureCountSightLines, expectedSightLines, "Expected %s point but got %s" % (str(expectedSightLines), str(featureCountSightLines)))
 
         except arcpy.ExecuteError:
-            self.fail(arcpy.GetMessages())
             UnitTestUtilities.handleArcPyError()
         except:
-            self.fail("FAIL: " + runToolMessage)
             UnitTestUtilities.handleGeneralError()

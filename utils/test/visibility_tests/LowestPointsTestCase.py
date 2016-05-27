@@ -58,7 +58,7 @@ class LowestPointsTestCase(unittest.TestCase):
 
         if arcpy.CheckExtension("Spatial") == "Available":
             arcpy.CheckOutExtension("Spatial")
-            if Configuration.DEBUG == True: print("Spatial checked out")
+            if Configuration.DEBUG == True: print(".....Spatial checked out")
 
     def tearDown(self):
         if Configuration.DEBUG == True: print(".....LowestPointsTestCase.tearDown")
@@ -75,38 +75,34 @@ class LowestPointsTestCase(unittest.TestCase):
 
             arcpy.LowestPoints_mt(self.inputArea, self.inputSurface, self.outputPoints)
 
-            self.assertTrue(arcpy.Exists(self.outputPoints))
+            self.assertTrue(arcpy.Exists(self.outputPoints), "Output points do not exist")
 
             pointCount = int(arcpy.GetCount_management(self.outputPoints).getOutput(0))
-            print(pointCount)
-            self.assertEqual(pointCount, int(6))
+            expectedNumFeats = int(6)
+            self.assertEqual(pointCount, expectedNumFeats, "Expected %s points but got %s" % (str(expectedNumFeats), str(pointCount)))
 
         except arcpy.ExecuteError:
-            self.fail(arcpy.GetMessages())
             UnitTestUtilities.handleArcPyError()
         except:
-            self.fail("FAIL: " + runToolMessage)
             UnitTestUtilities.handleGeneralError()
 
     def test_lowest_points_pro(self):
         ''' Test Lowest Points for ArcGIS Pro'''
         try:
             runToolMessage = ".....LowestPointsTestCase.test_lowest_points_pro"
-            arcpy.ImportToolbox(military_ProToolboxPath, "mt")
+            arcpy.ImportToolbox(Configuration.military_ProToolboxPath, "mt")
             print(runToolMessage)
             Configuration.Logger.info(runToolMessage)
 
             arcpy.LowestPoints_mt(self.inputArea, self.inputSurface, self.outputPoints)
 
-            self.assertTrue(arcpy.Exists(self.outputPoints))
+            self.assertTrue(arcpy.Exists(self.outputPoints), "Output points do not exist")
 
             pointCount = int(arcpy.GetCount_management(self.outputPoints).getOutput(0))
-            print(pointCount)
-            self.assertEqual(pointCount, int(6))
+            expectedNumFeats = int(6)
+            self.assertEqual(pointCount, expectedNumFeats, "Expected %s points but got %s" % (str(expectedNumFeats), str(pointCount)))
 
         except arcpy.ExecuteError:
-            self.fail(arcpy.GetMessages())
             UnitTestUtilities.handleArcPyError()
         except:
-            self.fail("FAIL: " + runToolMessage)
             UnitTestUtilities.handleGeneralError()

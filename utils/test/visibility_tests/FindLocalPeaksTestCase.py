@@ -58,7 +58,7 @@ class FindLocalPeaksTestCase(unittest.TestCase):
 
         if arcpy.CheckExtension("Spatial") == "Available":
             arcpy.CheckOutExtension("Spatial")
-            if Configuration.DEBUG == True: print("Spatial checked out")
+            if Configuration.DEBUG == True: print(".....Spatial checked out")
 
     def tearDown(self):
         if Configuration.DEBUG == True: print(".....FindLocalPeaksTestCase.tearDown")
@@ -75,16 +75,15 @@ class FindLocalPeaksTestCase(unittest.TestCase):
 
             arcpy.FindLocalPeaks_mt(self.inputArea, 10, self.inputSurface, self.outputPoints)
 
-            self.assertTrue(arcpy.Exists(self.outputPoints))
+            self.assertTrue(arcpy.Exists(self.outputPoints), "Output points do not exist")
 
             pointCount = int(arcpy.GetCount_management(self.outputPoints).getOutput(0))
-            self.assertEqual(pointCount, int(10))
+            expectedNumFeats = int(10)
+            self.assertEqual(pointCount, expectedNumFeats, "Expected %s pointss but got %s" % (str(expectedNumFeats), str(pointCount)))
 
         except arcpy.ExecuteError:
-            self.fail(arcpy.GetMessages())
             UnitTestUtilities.handleArcPyError()
         except:
-            self.fail("FAIL: " + runToolMessage)
             UnitTestUtilities.handleGeneralError()
 
     def test_find_local_peaks_pro(self):
@@ -97,14 +96,13 @@ class FindLocalPeaksTestCase(unittest.TestCase):
 
             arcpy.FindLocalPeaks_mt(self.inputArea, 10, self.inputSurface, self.outputPoints)
 
-            self.assertTrue(arcpy.Exists(self.outputPoints))
+            self.assertTrue(arcpy.Exists(self.outputPoints), "Output points do not exist")
 
             pointCount = int(arcpy.GetCount_management(self.outputPoints).getOutput(0))
-            self.assertEqual(pointCount, int(10))
+            expectedNumFeats = int(10)
+            self.assertEqual(pointCount, expectedNumFeats, "Expected %s pointss but got %s" % (str(expectedNumFeats), str(pointCount)))
 
         except arcpy.ExecuteError:
-            self.fail(arcpy.GetMessages())
             UnitTestUtilities.handleArcPyError()
         except:
-            self.fail("FAIL: " + runToolMessage)
             UnitTestUtilities.handleGeneralError()

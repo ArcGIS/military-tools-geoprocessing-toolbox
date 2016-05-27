@@ -60,7 +60,7 @@ class RadialLineOfSightTestCase(unittest.TestCase):
 
         if arcpy.CheckExtension("Spatial") == "Available":
             arcpy.CheckOutExtension("Spatial")
-            if Configuration.DEBUG == True: print("Spatial checked out")
+            if Configuration.DEBUG == True: print(".....Spatial checked out")
 
     def tearDown(self):
         ''' RadialLineOfSightTestCase.tearDown '''
@@ -77,17 +77,15 @@ class RadialLineOfSightTestCase(unittest.TestCase):
             Configuration.Logger.info(runToolMessage)
 
             arcpy.RadialLineOfSight_mt(self.observers, self.inputSurface, self.outputRLOS)
-            featureCount = int(arcpy.GetCount_management(self.outputRLOS).getOutput(0))
         
-            self.assertTrue(arcpy.Exists(self.outputRLOS))
-            self.assertEqual(featureCount, int(3501))
+            self.assertTrue(arcpy.Exists(self.outputRLOS), "Output visible areas do not exist")
+            
+            featureCount = int(arcpy.GetCount_management(self.outputRLOS).getOutput(0))
+            expectedNumFeats = int(3501)
+            self.assertEqual(featureCount, expectedNumFeats, "Expected %s areas but got %s" % (str(expectedNumFeats), str(featureCount)))
     
         except arcpy.ExecuteError:
-            self.fail(arcpy.GetMessages())
             UnitTestUtilities.handleArcPyError()
-        except:
-            self.fail("FAIL: " + runToolMessage)
-            UnitTestUtilities.handleGeneralError()
         
     def test_radial_line_of_sight_pro(self):
         ''' Testing the Radial Line Of Sight tool for ArcGIS Pro '''
@@ -98,14 +96,12 @@ class RadialLineOfSightTestCase(unittest.TestCase):
             Configuration.Logger.info(runToolMessage)
 
             arcpy.RadialLineOfSight_mt(self.observers, self.inputSurface, self.outputRLOS)
-            featureCount = int(arcpy.GetCount_management(self.outputRLOS).getOutput(0))
         
-            self.assertTrue(arcpy.Exists(self.outputRLOS))
-            self.assertEqual(featureCount, int(3501))
+            self.assertTrue(arcpy.Exists(self.outputRLOS), "Output visible areas do not exist")
+            
+            featureCount = int(arcpy.GetCount_management(self.outputRLOS).getOutput(0))
+            expectedNumFeats = int(3501)
+            self.assertEqual(featureCount, expectedNumFeats, "Expected %s areas but got %s" % (str(expectedNumFeats), str(featureCount)))
     
         except arcpy.ExecuteError:
-            self.fail(arcpy.GetMessages())
             UnitTestUtilities.handleArcPyError()
-        except:
-            self.fail("FAIL: " + runToolMessage)
-            UnitTestUtilities.handleGeneralError()

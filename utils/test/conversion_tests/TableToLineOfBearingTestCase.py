@@ -69,17 +69,14 @@ class TableToLineOfBearingTestCase(unittest.TestCase):
             Configuration.Logger.info(runToolMessage)
             
             arcpy.TableToLOB_mt(self.inputTable, "DD_2", "x", "y", "DEGREES", "Orientation", "METERS", "Distance", self.outputLineOfBearing, "GEODESIC")
-            self.assertTrue(arcpy.Exists(self.outputLineOfBearing))
+            self.assertTrue(arcpy.Exists(self.outputLineOfBearing), "Output lines do not exist")
             
             featureCount = int(arcpy.GetCount_management(self.outputLineOfBearing).getOutput(0))
-            self.assertEqual(featureCount, int(23))
+            expectedNumFeats = int(23)
+            self.assertEqual(featureCount, expectedNumFeats, "Expected %s lines but got %s" % (str(expectedNumFeats), str(featureCount)))
 
         except arcpy.ExecuteError:
-            self.fail(arcpy.GetMessages())
             UnitTestUtilities.handleArcPyError()
-        except:
-            self.fail("FAIL: " + runToolMessage)
-            UnitTestUtilities.handleGeneralError()
         
     def test_table_to_lineofbearing_pro(self):
         ''' Test Table To Line Of Bearing for ArcGIS Pro '''
@@ -90,14 +87,11 @@ class TableToLineOfBearingTestCase(unittest.TestCase):
             Configuration.Logger.info(runToolMessage)
             
             arcpy.TableToLOB_mt(self.inputTable, "DD_2", "x", "y", "DEGREES", "Orientation", "METERS", "Distance", self.outputLineOfBearing, "GEODESIC")
-            self.assertTrue(arcpy.Exists(self.outputLineOfBearing))
+            self.assertTrue(arcpy.Exists(self.outputLineOfBearing), "Output lines do not exist")
             
             featureCount = int(arcpy.GetCount_management(self.outputLineOfBearing).getOutput(0))
-            self.assertEqual(featureCount, int(23))
+            expectedNumFeats = int(23)
+            self.assertEqual(featureCount, expectedNumFeats, "Expected %s lines but got %s" % (str(expectedNumFeats), str(featureCount)))
 
         except arcpy.ExecuteError:
-            self.fail(arcpy.GetMessages())
             UnitTestUtilities.handleArcPyError()
-        except:
-            self.fail("FAIL: " + runToolMessage)
-            UnitTestUtilities.handleGeneralError()

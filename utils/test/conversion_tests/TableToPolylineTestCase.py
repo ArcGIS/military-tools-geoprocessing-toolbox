@@ -75,7 +75,8 @@ class TableToPolylineTestCase(unittest.TestCase):
             self.assertTrue(arcpy.Exists(self.outputPolylines), "Output polylines do not exist")
             
             polylineCount = int(arcpy.GetCount_management(self.outputPolylines).getOutput(0))
-            self.assertEqual(polylineCount, int(1), "Wrong number of features created")
+            expectedNumFeats = int(1)
+            self.assertEqual(polylineCount, expectedNumFeats, "Expected %s lines but got %s" % (str(expectedNumFeats), str(polylineCount)))
             
             compareFeatures = arcpy.FeatureCompare_management(self.baseFC, self.outputPolylines, "Shape_Length")
             # identical = 'true' means that there are no differences between the baseFC and the output feature class
@@ -83,11 +84,7 @@ class TableToPolylineTestCase(unittest.TestCase):
             self.assertEqual(identical, "true", "Resulting features do not match expected output")
        
         except arcpy.ExecuteError:
-            self.fail(arcpy.GetMessages())
             UnitTestUtilities.handleArcPyError()
-        # except:
-        #     self.fail("FAIL: " + runToolMessage)
-        #     UnitTestUtilities.handleGeneralError()
 
     def test_table_to_polyline_pro(self):
         ''' Test Table To Polyline for ArcGIS Pro '''
@@ -102,7 +99,8 @@ class TableToPolylineTestCase(unittest.TestCase):
             self.assertTrue(arcpy.Exists(self.outputPolylines), "Output polylines do not exist")
             
             polylineCount = int(arcpy.GetCount_management(self.outputPolylines).getOutput(0))
-            self.assertEqual(polylineCount, int(1), "Wrong number of features created")
+            expectedNumFeats = int(1)
+            self.assertEqual(polylineCount, expectedNumFeats, "Expected %s lines but got %s" % (str(expectedNumFeats), str(polylineCount)))
             
             compareFeatures = arcpy.FeatureCompare_management(self.baseFC, self.outputPolylines, "Shape_Length")
             # identical = 'true' means that there are no differences between the baseFC and the output feature class
@@ -110,8 +108,4 @@ class TableToPolylineTestCase(unittest.TestCase):
             self.assertEqual(identical, "true", "Resulting features do not match expected output")
        
         except arcpy.ExecuteError:
-            self.fail(arcpy.GetMessages())
             UnitTestUtilities.handleArcPyError()
-        # except:
-        #     self.fail("FAIL: " + runToolMessage)
-        #     UnitTestUtilities.handleGeneralError()

@@ -69,16 +69,15 @@ class TableToPointTestCase(unittest.TestCase):
 
             arcpy.TableToPoint_mt(self.inputTable, "DD_2", "Location_X", "Location_Y", self.outputPoints)
 
-            self.assertTrue(arcpy.Exists(self.outputPoints))
+            self.assertTrue(arcpy.Exists(self.outputPoints), "Output points do not exist")
 
             pointCount = int(arcpy.GetCount_management(self.outputPoints).getOutput(0))
-            self.assertEqual(pointCount, int(288))
+            expectedNumFeats = int(288)
+            self.assertEqual(pointCount, expectedNumFeats, "Expected %s points but got %s" % (str(expectedNumFeats), str(pointCount)))
 
         except arcpy.ExecuteError:
-            self.fail(arcpy.GetMessages())
             UnitTestUtilities.handleArcPyError()
         except:
-            self.fail("FAIL: " + runToolMessage)
             UnitTestUtilities.handleGeneralError()
 
     def test_table_to_point_pro(self):
@@ -91,14 +90,13 @@ class TableToPointTestCase(unittest.TestCase):
 
             arcpy.TableToPoint_mt(self.inputTable, "DD_2", "Location_X", "Location_Y", self.outputPoints)
 
-            self.assertTrue(arcpy.Exists(self.outputPoints))
+            self.assertTrue(arcpy.Exists(self.outputPoints), "Output points do not exist")
 
             pointCount = int(arcpy.GetCount_management(self.outputPoints).getOutput(0))
-            self.assertEqual(pointCount, int(288))
+            expectedNumFeats = int(288)
+            self.assertEqual(pointCount, expectedNumFeats, "Expected %s points but got %s" % (str(expectedNumFeats), str(pointCount)))
 
         except arcpy.ExecuteError:
-            self.fail(arcpy.GetMessages())
             UnitTestUtilities.handleArcPyError()
         except:
-            self.fail("FAIL: " + runToolMessage)
             UnitTestUtilities.handleGeneralError()
