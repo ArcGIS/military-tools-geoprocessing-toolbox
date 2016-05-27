@@ -22,6 +22,7 @@ import sys, os, traceback
 import arcpy
 from arcpy import env
 
+DEBUG = True
 delete_me = []
 
 try:
@@ -77,58 +78,58 @@ try:
     arcpy.CopyRows_management(Input_Table, Output_Table, "")
 
     # Process: Add Unique Row ID
-    arcpy.AddMessage("Before Add Unique Row ID ...")
+    if DEBUG == True: arcpy.AddMessage("Before Add Unique Row ID ...")
     #arcpy.AddUniqueRowID_InC(Output_Table, "JoinID")
     #arcpy.AddUniqueRowID_ma(Output_Table, "JoinID")
     arcpy.AddUniqueRowID_mt(Output_Table, "JoinID")
     #arcpy.mt.AddUniqueRowID(Output_Table, "JoinID")
-    arcpy.AddMessage("After Add Unique Row ID ...")
+    if DEBUG == True: arcpy.AddMessage("After Add Unique Row ID ...")
     
 
     # Process: Convert Coordinate Notation (GARS)
-    arcpy.AddMessage("Converting & appending GARS ...")
+    if DEBUG == True: arcpy.AddMessage("Converting & appending GARS ...")
     arcpy.ConvertCoordinateNotation_management(intermed, scratchTable, X_Field__Longitude__UTM__MGRS__USNG__GARS__GeoRef_, Y_Field__Latitude_, Input_Coordinate_Format, "GARS", "JoinID", Spatial_Reference)
     arcpy.JoinField_management(intermed, "JoinID", scratchTable, "JoinID", "GARS")
 
     # Process: Convert Coordinate Notation (DD)
-    arcpy.AddMessage("Converting & appending Decimal Degrees ...")
+    if DEBUG == True: arcpy.AddMessage("Converting & appending Decimal Degrees ...")
     arcpy.ConvertCoordinateNotation_management(intermed, scratchTable, X_Field__Longitude__UTM__MGRS__USNG__GARS__GeoRef_, Y_Field__Latitude_, Input_Coordinate_Format, "DD", "JoinID", Spatial_Reference)
     arcpy.JoinField_management(intermed, "JoinID", scratchTable, "JoinID", "DDLat;DDLon")
 
     # Process: Convert Coordinate Notation (DDM)
-    arcpy.AddMessage("Converting & appending Degrees Decimal Minutes ...")
+    if DEBUG == True: arcpy.AddMessage("Converting & appending Degrees Decimal Minutes ...")
     arcpy.ConvertCoordinateNotation_management(intermed, scratchTable, X_Field__Longitude__UTM__MGRS__USNG__GARS__GeoRef_, Y_Field__Latitude_, Input_Coordinate_Format, "DDM", "JoinID", Spatial_Reference)
     arcpy.JoinField_management(intermed, "JoinID", scratchTable, "JoinID", "DDMLat;DDMLon")
 
     # Process: Convert Coordinate Notation (DMS)
-    arcpy.AddMessage("Converting & appending Degrees Minutes Seconds ...")
+    if DEBUG == True: arcpy.AddMessage("Converting & appending Degrees Minutes Seconds ...")
     arcpy.ConvertCoordinateNotation_management(intermed, scratchTable, X_Field__Longitude__UTM__MGRS__USNG__GARS__GeoRef_, Y_Field__Latitude_, Input_Coordinate_Format, "DMS", "JoinID", Spatial_Reference)
     arcpy.JoinField_management(intermed, "JoinID", scratchTable, "JoinID", "DMS")
 
     # Process: Convert Coordinate Notation (UTM)
-    arcpy.AddMessage("Converting & appending UTM ...")
+    if DEBUG == True: arcpy.AddMessage("Converting & appending UTM ...")
     arcpy.ConvertCoordinateNotation_management(intermed, scratchTable, X_Field__Longitude__UTM__MGRS__USNG__GARS__GeoRef_, Y_Field__Latitude_, Input_Coordinate_Format, "UTM", "JoinID", Spatial_Reference)
     arcpy.JoinField_management(intermed, "JoinID", scratchTable, "JoinID", "UTM")
 
     # Process: Convert Coordinate Notation (MGRS)
-    arcpy.AddMessage("Converting & appending MGRS ...")
+    if DEBUG == True: arcpy.AddMessage("Converting & appending MGRS ...")
     arcpy.ConvertCoordinateNotation_management(intermed, scratchTable, X_Field__Longitude__UTM__MGRS__USNG__GARS__GeoRef_, Y_Field__Latitude_, Input_Coordinate_Format, "MGRS", "JoinID", Spatial_Reference)
     arcpy.JoinField_management(intermed, "JoinID", scratchTable, "JoinID", "MGRS")
 
     # Process: Convert Coordinate Notation (USNG)
-    arcpy.AddMessage("Converting & appending USNG ...")
+    if DEBUG == True: arcpy.AddMessage("Converting & appending USNG ...")
     arcpy.ConvertCoordinateNotation_management(intermed, scratchTable, X_Field__Longitude__UTM__MGRS__USNG__GARS__GeoRef_, Y_Field__Latitude_, Input_Coordinate_Format, "USNG", "JoinID", Spatial_Reference)
     arcpy.JoinField_management(intermed, "JoinID", scratchTable, "JoinID", "USNG")
 
     # Process: Convert Coordinate Notation (GeoRef)
-    arcpy.AddMessage("Converting & appending GeoRef ...")
+    if DEBUG == True: arcpy.AddMessage("Converting & appending GeoRef ...")
     arcpy.ConvertCoordinateNotation_management(intermed, scratchTable, X_Field__Longitude__UTM__MGRS__USNG__GARS__GeoRef_, Y_Field__Latitude_, Input_Coordinate_Format, "GEOREF", "JoinID", Spatial_Reference)
     arcpy.JoinField_management(intermed, "JoinID", scratchTable, "JoinID", "GEOREF")
 
     # cleanup
-    arcpy.AddMessage("Removing scratch datasets:")
+    if DEBUG == True: arcpy.AddMessage("Removing scratch datasets:")
     for ds in delete_me:
-        arcpy.AddMessage(str(ds))
+        if DEBUG == True: arcpy.AddMessage(str(ds))
         arcpy.Delete_management(ds)
 
     env.overwriteOutput = currentOverwriteOutput

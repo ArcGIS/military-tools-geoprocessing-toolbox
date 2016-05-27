@@ -72,22 +72,22 @@ class TableToPolylineTestCase(unittest.TestCase):
             
             arcpy.TableToPolyline_mt(self.inputTable, "DD_2", "POINT_X", "POINT_Y", self.outputPolylines)
             
-            self.assertTrue(arcpy.Exists(self.outputPolylines))
+            self.assertTrue(arcpy.Exists(self.outputPolylines), "Output polylines do not exist")
             
             polylineCount = int(arcpy.GetCount_management(self.outputPolylines).getOutput(0))
-            self.assertEqual(polylineCount, int(1))
+            self.assertEqual(polylineCount, int(1), "Wrong number of features created")
             
             compareFeatures = arcpy.FeatureCompare_management(self.baseFC, self.outputPolylines, "Shape_Length")
             # identical = 'true' means that there are no differences between the baseFC and the output feature class
             identical = compareFeatures.getOutput(1)
-            self.assertEqual(identical, "true")
+            self.assertEqual(identical, "true", "Resulting features do not match expected output")
        
         except arcpy.ExecuteError:
             self.fail(arcpy.GetMessages())
             UnitTestUtilities.handleArcPyError()
-        except:
-            self.fail("FAIL: " + runToolMessage)
-            UnitTestUtilities.handleGeneralError()
+        # except:
+        #     self.fail("FAIL: " + runToolMessage)
+        #     UnitTestUtilities.handleGeneralError()
 
     def test_table_to_polyline_pro(self):
         ''' Test Table To Polyline for ArcGIS Pro '''
@@ -99,19 +99,19 @@ class TableToPolylineTestCase(unittest.TestCase):
             
             arcpy.TableToPolyline_mt(self.inputTable, "DD_2", "POINT_X", "POINT_Y", self.outputPolylines)
             
-            self.assertTrue(arcpy.Exists(self.outputPolylines))
+            self.assertTrue(arcpy.Exists(self.outputPolylines), "Output polylines do not exist")
             
             polylineCount = int(arcpy.GetCount_management(self.outputPolylines).getOutput(0))
-            self.assertEqual(polylineCount, int(1))
+            self.assertEqual(polylineCount, int(1), "Wrong number of features created")
             
             compareFeatures = arcpy.FeatureCompare_management(self.baseFC, self.outputPolylines, "Shape_Length")
             # identical = 'true' means that there are no differences between the baseFC and the output feature class
             identical = compareFeatures.getOutput(1)
-            self.assertEqual(identical, "true")
+            self.assertEqual(identical, "true", "Resulting features do not match expected output")
        
         except arcpy.ExecuteError:
             self.fail(arcpy.GetMessages())
             UnitTestUtilities.handleArcPyError()
-        except:
-            self.fail("FAIL: " + runToolMessage)
-            UnitTestUtilities.handleGeneralError()
+        # except:
+        #     self.fail("FAIL: " + runToolMessage)
+        #     UnitTestUtilities.handleGeneralError()

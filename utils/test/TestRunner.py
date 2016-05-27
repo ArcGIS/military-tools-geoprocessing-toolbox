@@ -29,6 +29,7 @@
 ========================================================================
  history:
  5/10/2016 - JH - initial creation
+ 5/27/2016 - MF - Minor messaging changes
 ========================================================================
 '''
 
@@ -37,6 +38,7 @@ import sys
 import datetime
 import logging
 import unittest
+
 import arcpy
 import Configuration
 import UnitTestUtilities
@@ -67,7 +69,10 @@ def main():
     result = runTestSuite()
     logTestResults(result)
     print("END OF TEST =========================================\n")
-    return
+    if result.wasSuccessful():
+        sys.exit(0)
+    else:
+        sys.exit("Errors or failures during test run.")
 
 def logTestResults(result):
     ''' Write the log file '''
@@ -83,7 +88,6 @@ def logTestResults(result):
         print(rFail)
         Configuration.Logger.error(rFail)
     Configuration.Logger.info("END OF TEST =========================================\n")
-
     return
 
 def resultsHeader(result):
@@ -100,7 +104,7 @@ def resultsErrors(result):
     for i in result.errors:
         for j in i:
             msg += str(j)
-        msg += "\n"
+        msg += ".................................................................\n"
     return msg
 
 def resultsFailures(result):
@@ -109,7 +113,7 @@ def resultsFailures(result):
     for i in result.failures:
         for j in i:
             msg += str(j)
-        msg += "\n"
+        msg += ".................................................................\n"
     return msg
 
 def runTestSuite():
