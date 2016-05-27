@@ -29,6 +29,7 @@ Basic methods used in unit tests.
 ==================================================
 history:
 5/10/2016 - JH - initial creation
+5/27/2016 - MF - updates for message readability and ArcPy check is less chatty
 ==================================================
 '''
 
@@ -44,7 +45,7 @@ import datetime
 def getLoggerName():
     ''' get unique log file name '''
     if Configuration.DEBUG == True:
-        print("UnitTestUtilities - getLoggerName")
+        print(".....UnitTestUtilities.getLoggerName")
     seq = 0
     name = nameFromDate(seq)
     #add +=1 to seq until name doesn't exist as a path
@@ -74,7 +75,7 @@ def makeFileFromPath(filePath):
             fd = open(filePath, 'a')
             fd.close()
         except:
-            print("Can't make file for some reason.")
+            print(".....Can't make file for some reason.")
     return filePath
 
 def makeFolderFromPath(folderPath):
@@ -84,13 +85,13 @@ def makeFolderFromPath(folderPath):
         try:
             os.makedirs(folderPath)
         except:
-            print("Can't make the folder for some reason.")
+            print(".....Can't make the folder for some reason.")
     return folderPath
 
 def initializeLogger(name):
     ''' get and return named logger '''
     if Configuration.DEBUG == True:
-        print("UnitTestUtilities - initializeLogger")
+        print(".....UnitTestUtilities.initializeLogger")
 
     # Check if the path to the log files exists, and create if not
     if not os.path.exists(Configuration.logPath):
@@ -113,7 +114,7 @@ def initializeLogger(name):
 def setUpLogFileHeader():
     ''' Add a header to log file when initalized '''
     if Configuration.DEBUG == True:
-        print("UnitTestUtilities - setUpLogFileHeader")
+        print(".....UnitTestUtilities.setUpLogFileHeader")
     Configuration.Logger.info("------------ Begin Test ------------------")
     Configuration.Logger.info("Platform: {0}".format(platform.platform()))
     Configuration.Logger.info("Python Version {0}".format(sys.version))
@@ -123,52 +124,53 @@ def setUpLogFileHeader():
 
 def checkArcPy():
     ''' sanity check that ArcPy is working '''
-    if Configuration.DEBUG == True: print("UnitTestUtilities - checkArcPy")
-    arcpy.AddMessage("ArcPy works")
+    if Configuration.DEBUG == True: print(".....UnitTestUtilities.checkArcPy")
+    #arcpy.AddMessage("ArcPy works")
+    info = arcpy.GetInstallInfo()
 
 def checkExists(p):
     ''' Python check for existance '''
-    if Configuration.DEBUG == True: print("UnitTestUtilities - checkExists")
+    if Configuration.DEBUG == True: print(".....UnitTestUtilities.checkExists")
     return os.path.exists(p)
 
 def createScratch(scratchPath):
     ''' create scratch geodatabase '''
-    if Configuration.DEBUG == True: print("UnitTestUtilities - createScratch")
+    if Configuration.DEBUG == True: print(".....UnitTestUtilities.createScratch")
     scratchName = 'scratch.gdb'
     scratchGDB = os.path.join(scratchPath, scratchName)
     if checkExists(scratchGDB):
         print("Scratch already exists")
         return scratchGDB
     try:
-        if Configuration.DEBUG == True: print("Creating scratch geodatabase...")
+        if Configuration.DEBUG == True: print(".....Creating scratch geodatabase...")
         arcpy.CreateFileGDB_management(scratchPath, scratchName)
-        if Configuration.DEBUG == True: print("Created scratch gdb.")
+        if Configuration.DEBUG == True: print(".....Created scratch gdb.")
     except:
         print("Problem creating scratch.gdb")
     return scratchGDB
 
 def deleteScratch(scratchPath):
     ''' delete scratch geodatabase '''
-    if Configuration.DEBUG == True: print("UnitTestUtilities - deleteScratch")
+    if Configuration.DEBUG == True: print(".....UnitTestUtilities.deleteScratch")
     try:
         arcpy.Delete_management(scratchPath)
-        if Configuration.DEBUG == True: print("Deleted scratch gdb.")
+        if Configuration.DEBUG == True: print(".....Deleted scratch gdb.")
     except:
-        print("scratch.gdb delete failed")
+        print(".....scratch.gdb delete failed")
     return
 
 def checkFilePaths(paths):
     ''' check file/folder paths exist '''
-    if Configuration.DEBUG == True: print("UnitTestUtilities - checkFilePaths")
+    if Configuration.DEBUG == True: print(".....UnitTestUtilities.checkFilePaths")
     for path2check in paths:
         if os.path.exists(path2check):
-            if Configuration.DEBUG == True: print("Valid Path: " + path2check)
+            if Configuration.DEBUG == True: print(".....Valid Path: " + path2check)
         else:
-            raise Exception('Bad Path: ' + str(path2check))
+            raise Exception('.....Bad Path: ' + str(path2check))
 
 def checkGeoObjects(objects):
     ''' check geospatial stuff exists '''
-    if Configuration.DEBUG == True: print("UnitTestUtilities - checkGeoObjects")
+    if Configuration.DEBUG == True: print(".....UnitTestUtilities.checkGeoObjects")
     for object2Check in objects:
         #TODO: Shouldn't we be using arcpy.Exists()?
         desc = arcpy.Describe(object2Check)
@@ -181,7 +183,7 @@ def checkGeoObjects(objects):
 
 def handleArcPyError():
     ''' Basic GP error handling, errors printed to console and logger '''
-    if Configuration.DEBUG == True: print("UnitTestUtilities - handleArcPyError")
+    if Configuration.DEBUG == True: print(".....UnitTestUtilities.handleArcPyError")
     # Get the arcpy error messages
     msgs = arcpy.GetMessages()
     arcpy.AddError(msgs)
@@ -190,7 +192,7 @@ def handleArcPyError():
 
 def handleGeneralError():
     ''' Basic error handler, errors printed to console and logger '''
-    if Configuration.DEBUG == True: print("UnitTestUtilities - handleGeneralError")
+    if Configuration.DEBUG == True: print(".....UnitTestUtilities.handleGeneralError")
     # Get the traceback object
     tb = sys.exc_info()[2]
     tbinfo = traceback.format_tb(tb)[0]
