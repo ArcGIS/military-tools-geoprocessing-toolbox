@@ -755,15 +755,21 @@ def hi_lowPointByArea(inputAreaFeature,
         resultSetNull.save(setNull)
         deleteme.append(setNull)
         
-        #Converting to points
-        arcpy.RasterToPoint_conversion(setNull, outputPointFeature, "VALUE")
-        #Add 'Elevation' field, and remove 'Grid_code'
+        #Convert to polygons so adjoining pixels with the same value don't all get identified as the lowest point        
+        lowestPolygons = os.path.join(scratch, "lowestPolygons")
+        deleteme.append(lowestPolygons)
+        arcpy.RasterToPolygon_conversion(setNull,lowestPolygons,"SIMPLIFY","VALUE")        
+        
+        #Add 'Elevation' field, and remove 'gridcode'
         addFieldName = "Elevation"
-        dropFieldName = "grid_code"
-        outputPointFeature = _addDoubleField(outputPointFeature, {addFieldName:[0,addFieldName]})
+        dropFieldName = "gridcode"
+        lowestPolygons = _addDoubleField(lowestPolygons, {addFieldName:[0,addFieldName]})
         expressionCalcField = r"!{0}!".format(dropFieldName)
-        arcpy.CalculateField_management(outputPointFeature, addFieldName, expressionCalcField, "PYTHON_9.3")
-        arcpy.DeleteField_management(outputPointFeature, [dropFieldName, "pointid"])
+        arcpy.CalculateField_management(lowestPolygons, addFieldName, expressionCalcField, "PYTHON_9.3")
+        arcpy.DeleteField_management(lowestPolygons, [dropFieldName, "pointid"])
+        
+        #Convert the polygons to points and return the centroid of each polygon
+        arcpy.FeatureToPoint_management(lowestPolygons, outputPointFeature)
 
         return outputPointFeature
     
