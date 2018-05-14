@@ -279,7 +279,7 @@ def RotateFeatureClass(inputFC, outputFC,
                 except:
                     pass
         else:
-            if env_file: arcpy.gp.LoadSettings(env_file)
+            if env_file: arcpy.LoadSettings(env_file)
             # Clean up temp files
             for f in [lyrFC, lyrTmp, lyrOut, tmpFC, env_file]:
                 try:
