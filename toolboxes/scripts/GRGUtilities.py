@@ -267,13 +267,25 @@ def RotateFeatureClass(inputFC, outputFC,
         arcpy.AddError(tbinfo + str(xmsg))
     finally:
         # reset environment
-        if env_file: arcpy.gp.LoadSettings(env_file)
-        # Clean up temp files
-        for f in [lyrFC, lyrTmp, lyrOut, tmpFC, env_file]:
-            try:
-                if f: arcpy.Delete_management(f)
-            except:
-                pass
+        appEnvironment = None
+        ''' Check for ArcGIS Pro '''
+        global appEnvironment
+        if appEnvironment == "ARCGIS_PRO":
+            if env_file: arcpy.gp.LoadSettings(env_file)
+            # Clean up temp files
+            for f in [lyrFC, lyrTmp, lyrOut, tmpFC, env_file]:
+                try:
+                    if f: arcpy.Delete_management(f)
+                except:
+                    pass
+        else:
+            if env_file: arcpy.gp.LoadSettings(env_file)
+            # Clean up temp files
+            for f in [lyrFC, lyrTmp, lyrOut, tmpFC, env_file]:
+                try:
+                    if f: arcpy.Delete_management(f)
+                except:
+                    pass
 
         # return pivot point
         try:
