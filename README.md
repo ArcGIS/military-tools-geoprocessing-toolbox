@@ -28,15 +28,13 @@ The **Military Tools** toolbox is a Python Toolbox (PYT) that contains the conte
 or
 * **ArcGIS Pro 1.4+**
 
-Additionally there are additional extensions needed for certain tools:
+Additionally there are elevated license requirements for certain tools:
 
-* Requires **ArcGIS Spatial Analyst**:
+* Requires **Advanced** license:
+	* Create GRG from Area
+	* Create GRG from Point
+	* Number Features
 	* Find Local Peaks
-	* Highest Points
-	* Lowest Points
-	* Radial Line Of Sight
-
-* Requires **ArcGIS Spatial Analyst** *and* **ArcGIS 3D Analyst**:
 	* Linear Line Of Sight
 
 ## Instructions
