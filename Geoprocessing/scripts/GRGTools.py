@@ -552,7 +552,7 @@ class NumberFeatures(object):
                                          enabled=True,
                                          multiValue=False)
 
-        layerFile = "NumberedStructures.lyr"
+        layerFile = "NumberedFeatures.lyrx"
         app = Utilities.GetPlatform()
         if ( app == 'ARCMAP'):
             layerFile = "NumberedStructures.lyr" # Use this one for Pro so labeling works
