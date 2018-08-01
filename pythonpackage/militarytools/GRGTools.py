@@ -35,12 +35,10 @@ try:
     from . import Utilities
     from . import GRGUtilities
     from . import RefGrid
-    from . import MilitaryToolsUtilities
 except ImportError:
     import Utilities
     import GRGUtilities
     import RefGrid
-    import MilitaryToolsUtilities
 
 class CreateGRGFromArea(object):
     '''
@@ -66,7 +64,8 @@ class CreateGRGFromArea(object):
                                               parameterType='Required',
                                               enabled=True,
                                               multiValue=False)
-        input_layer_file_path = os.path.join(MilitaryToolsUtilities.GetLayerPath(),
+        input_layer_file_path = os.path.join(os.path.dirname(os.path.dirname(__file__)),
+                                             "layers",
                                              "RelativeGRGInputArea.lyr")
         input_area_features.value = input_layer_file_path
 
@@ -149,7 +148,8 @@ class CreateGRGFromArea(object):
                                          enabled=True,
                                          multiValue=False)
         output_features.value = r"%scratchGDB%/area_grg"
-        output_features.symbology = os.path.join(MilitaryToolsUtilities.GetLayerPath(), "GRG.lyr")
+        output_features.symbology = os.path.join(os.path.dirname(os.path.dirname(__file__)),
+                                                 "layers", "GRG.lyr")
 
         return [input_area_features,
                 cell_width,
@@ -213,7 +213,8 @@ class CreateGRGFromPoint(object):
                                                enabled=True,
                                                multiValue=False)
 
-        input_layer_file_path = os.path.join(MilitaryToolsUtilities.GetLayerPath(),
+        input_layer_file_path = os.path.join(os.path.dirname(os.path.dirname(__file__)),
+                                             "layers",
                                              "RelativeGRGInputPoint.lyr")
         input_start_location.value = input_layer_file_path
 
@@ -322,7 +323,8 @@ class CreateGRGFromPoint(object):
                                          enabled=True,
                                          multiValue=False)
         output_features.value = r"%scratchGDB%/point_grg"
-        output_features.symbology = os.path.join(MilitaryToolsUtilities.GetLayerPath(), "GRG.lyr")
+        output_features.symbology = os.path.join(os.path.dirname(os.path.dirname(__file__)),
+                                                 "layers", "GRG.lyr")
 
         return [input_start_location,
                 horizontal_cells,
@@ -411,7 +413,8 @@ class CreateReferenceSystemGRGFromArea(object):
                                               parameterType='Required',
                                               enabled=True,
                                               multiValue=False)
-        input_layer_file_path = os.path.join(MilitaryToolsUtilities.GetLayerPath(),
+        input_layer_file_path = os.path.join(os.path.dirname(os.path.dirname(__file__)),
+                                             "layers",
                                              "RelativeGRGInputArea.lyr")
         input_area_features.value = input_layer_file_path
 
@@ -445,7 +448,8 @@ class CreateReferenceSystemGRGFromArea(object):
                                          enabled=True,
                                          multiValue=False)
         output_grid_features.value = r"%scratchGDB%/output_grid"
-        output_grid_features.symbology = os.path.join(MilitaryToolsUtilities.GetLayerPath(), "OutputRefGrid.lyr")
+        output_grid_features.symbology = os.path.join(os.path.dirname(os.path.dirname(__file__)),
+                                                 "layers", "OutputRefGrid.lyr")
 
         large_grid_handling = arcpy.Parameter(name='large_grid_handling',
                                            displayName='Large Grid Handling',
@@ -517,7 +521,8 @@ class NumberFeatures(object):
                                               parameterType='Required',
                                               enabled=True,
                                               multiValue=False)
-        input_layer_file_path = os.path.join(MilitaryToolsUtilities.GetLayerPath(),
+        input_layer_file_path = os.path.join(os.path.dirname(os.path.dirname(__file__)),
+                                             "layers",
                                              "RelativeNumberFeaturesAreaInput.lyr")
         input_area_features.value = input_layer_file_path
 
@@ -547,11 +552,13 @@ class NumberFeatures(object):
                                          enabled=True,
                                          multiValue=False)
 
-        layerFile = "NumberedStructures.lyr"
-        if (Utilities.GetPlatform() == Utilities.PLATFORM_PRO):
-            layerFile = "NumberedStructures.lyrx" # Use this one for Pro so labeling works
+        layerFile = "NumberedFeatures.lyrx"
+        app = Utilities.GetPlatform()
+        if ( app == 'ARCMAP'):
+            layerFile = "NumberedStructures.lyr" # Use this one for Pro so labeling works
 
-        output_features.symbology = os.path.join(MilitaryToolsUtilities.GetLayerPath(), layerFile)
+        output_features.symbology = os.path.join(os.path.dirname(os.path.dirname(__file__)),
+                                                 "layers", layerFile)
 
         return [input_area_features,
                 input_number_features,
