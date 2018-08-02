@@ -119,5 +119,5 @@ limitations under the License.
 A copy of the license is available in the repository's
 [license.txt](license.txt) file.
 
-[](Esri Tags: ArcGISSolutions Military Defense Military-Tools-for-ArcGIS)
+[](Esri Tags: ArcGISSolutions Military Defense Military-Tools-for-ArcGIS gridded-reference-graphic)
 [](Esri Language: Python)
