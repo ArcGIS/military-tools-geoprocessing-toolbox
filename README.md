@@ -1,6 +1,8 @@
 # military-tools-geoprocessing-toolbox
-___Beginning at ArcGIS Pro 2.6 this functionality is installed with ArcGIS Pro. This repository will only be updated with critical fixes to ArcGIS Desktop.___
 
+## *This repository is no longer maintained.* 
+
+___Beginning at ArcGIS Pro 2.6 this functionality is installed with ArcGIS Pro.___
 
 The Military Tools for ArcGIS toolbox is an ArcGIS Python toolbox supporting defense and intelligence workflows. The toolbox is a component of the [Military Tools for ArcGIS product](http://solutions.arcgis.com/defense/help/military-tools/). 
 
